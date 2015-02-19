@@ -10,13 +10,13 @@ int main()
 	printf("Number of test cases: ");
 	scanf("%d", &test);
 
-	char name[test][275] = {'\0'};
+	char name[test][255] = {'\0'};
 
 	// need to fix: 
-	// not exceed 255 characters
+	// not exceed 255 characters -- fixed (data will be truncated)
 
 	while(x < test) 
-		scanf("%s", name[x++]);
+		scanf("%255s", name[x++]);
 
 	x = 0;
 
