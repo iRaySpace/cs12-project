@@ -7,7 +7,7 @@ int main()
 		tc = 0;
 
 	scanf("%d", &tc);
-
+	
 	unsigned int first_num[tc];
 	unsigned int second_num[tc];
 

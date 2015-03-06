@@ -1,83 +1,100 @@
 #include<stdio.h>
-#include<conio.h>
 #include<stdbool.h>
+#include<ctype.h>
 #include<string.h>
+#include<conio.h>
+
+#define MAX_LENGTH 20
+
+// checks if the string is
+// within the MAX_LENGTH
+bool is_within_length(char* string)
+{
+	if(strlen(string) > MAX_LENGTH)
+		return false;
+
+	return true;
+}
+
+// checks if the first character
+// of the string is a digit
+bool begins_with_digit(char* string)
+{
+	if(isdigit(string[0]))
+		return true;
+
+	return false;
+}
+
+// checks if the string has only
+// selected characters:
+// the English letters
+// odd numbers
+// (#) number sign
+// (_) underscore
+bool has_only_selected_chars(char* string)
+{
+	int x;
+
+	for(x = 0; x < strlen(string); x++)
+	{
+		switch(string[x])
+		{
+			case 'a' ... 'z':
+			case 'A' ... 'Z':
+			case '0': case '2': 
+			case '4': case '6':
+			case '8': case '#':
+			case '_': break;
+			default:  return false; // skips everything if found that is not included
+		}
+	}
+
+	return true; // if no fail return true
+}
 
 int main()
-{	
-	int test = 0, x = 0;
+{
+	int T = 0, // test cases
+		x = 0; // iterator
 
-	printf("Number of test cases: ");
-	scanf("%d", &test);
+	scanf("%d", &T); // inputs
 
-	char name[test][255] = {'\0'};
+	if(T < 1 || T > 100) // check bounds
+		return -1;
 
-	// need to fix: 
-	// not exceed 255 characters -- fixed (data will be truncated)
+	// initializing an identifiers array
+	// by setting it as all NULL
+	char identifiers[T][255];
+	memset(identifiers, '\0', sizeof(identifiers));
 
-	while(x < test) 
-		scanf("%255s", name[x++]);
+	// gets input from the user
+	for(x; x < T; x++)
+		scanf("%255s", identifiers[x]);
 
-	x = 0;
+	for(x = 0; x < T; x++)
+	{
+		// assumes all the input is VALID
+		bool is_valid = true;
 
-	while(x < test) {
-
-		int y = 0;
-		bool is_valid = false;
-
-		while(y < strlen(name[x]))
-		{
-			is_valid = true; // predicts output is already valid
-
-			// if the beginning of the
-			// char of the string is
-			// a digit exits false
-
-			// else if the current length
-			// of the string is more than
-			// 20, exits false
-			if(y == 0) {
-
-				switch(name[x][y]) {
-					case '0': case '2':
-					case '4': case '6':
-					case '8':
-						is_valid = false;
-				}
-
-			} else if(y > 20) {
-
-				is_valid = false;
-
-			}
-
-			// exits the loop
-			if(!is_valid)
-				break;
-
-			// a simple hack
-			// for a non-english alphabet
+		// checks the length
+		if(!is_within_length(identifiers[x]))
 			is_valid = false;
 
-			switch(name[x][y])
-			{
-				case '0': case '2':
-				case '4': case '6':
-				case '8': case '#':
-				case '_': case 'a' ... 'z' :
-					is_valid = true;
-			}
+		// check if it begins with a digit
+		if(begins_with_digit(identifiers[x]))
+			is_valid = false;
 
-			y++;
-		}
+		// checks if it has only selected characters
+		if(!has_only_selected_chars(identifiers[x]))
+			is_valid = false;
 
-		if(is_valid) printf("Case #%d: VALID\n", x);
-		else 		 printf("Case #%d: NOT VALID\n", x);
+		printf("Case #%d: ", x + 1);
 
-		x++;
+		(is_valid) ? printf("VALID\n")
+				   : printf("NOT VALID\n");
 	}
 
 	getch();
 	return 0;
-
 }

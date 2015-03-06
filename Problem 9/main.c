@@ -3,11 +3,14 @@
 
 int main()
 {
+	// UNSIGNED SHORT, REALLY?
 	int x = 0,
 		tc = 0;
 
 	scanf("%d", &tc);
 
+	// this needs to be fix
+	// bounds is not good
 	if(!(tc >= 1 || tc <= 100))
 		return -1;
 
@@ -16,14 +19,17 @@ int main()
 					   minutes[tc],
 					   seconds[tc];
 
-	while(x < tc) {
+	// scans the existing datas
+	// by using the format specifier for unsigned short
+	for(x = 0; x < tc; x++)
 		scanf("%hu %hu %hu %hu", &days[x], &hours[x], &minutes[x], &seconds[x]);
-		x++;
-	}
 
-	x = 0;
-
-	while(x < tc) {
+	// doing the converting of time
+	// from seconds to minutes
+	// from minutes to hours
+	// from hours to days
+	// why not put in a function
+	for(x = 0; x < tc; x++) {
 		
 		minutes[x] += seconds[x] / 60;
 		seconds[x] %= 60;
@@ -34,7 +40,6 @@ int main()
 		days[x] += hours[x] / 24;
 		hours[x] %= 24;
 
-		x++;
 	}
 
 	x = 0;
@@ -43,13 +48,14 @@ int main()
 
 		printf("Case #%d: ", x + 1);
 		
-		char last = '\0';
+		char last = '\0'; // flagger
 
 		if(days[x]) last = 'd';
 		if(hours[x]) last = 'h';
 		if(minutes[x]) last = 'm';
 		if(seconds[x]) last = 's';
 
+		// 60 seconds
 		(last == 'd' && days[x]) ? printf("%hu days", days[x])
 								 : printf("%hu days, ", days[x]);
 

@@ -4,15 +4,19 @@
 #include<ctype.h>
 #include<stdbool.h>
 
+// initializes the mine field
+// from any except * to "0"
+// for easy manipulation of data
 void init_mine_field(char* mine_field, int num_of_char)
 {
 	int i = 0;
 
 	for(; i < num_of_char; i++)
-		if(mine_field[i] == '.') 
+		if(mine_field[i] != '*') 
 			mine_field[i] = '0';
 }
 
+// bounds checker
 bool within_bounds(int min, int max, int num)
 {
 	if(num < min || num > max - 1)
@@ -21,6 +25,7 @@ bool within_bounds(int min, int max, int num)
 	return true;
 }
 
+// checks if mine
 bool is_mine(char x)
 {
 	if(x == '*')
