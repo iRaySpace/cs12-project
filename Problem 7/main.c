@@ -1,56 +1,136 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<conio.h>
+#include<string.h>
 #include<stdbool.h>
 
-#define MAX 10
+// checks if the given col is even
+bool is_sum_even_col(char* col, int size)
+{
+	int x = 0, // iteration
+		sum = 0; // summation of all data of indexes
+
+	for(x = 0; x < size; x++)
+		sum += col[x];
+
+	if(sum % 2 != 0)
+		return false;
+
+	return true;
+}
+
+// checks if the given row is even
+bool is_sum_even_row(char* row, int size)
+{
+	int x = 0,
+		sum = 0;
+
+	for(x; x < size; x++)
+		sum += row[size * x]; // since array is a contiguously storage of data
+
+	if(sum % 2 != 0)
+		return false;
+
+	return true;
+}
 
 int main()
 {
-	int s = 0, // size for the boolean matrix
-		x = 0, 
-		y = 0; // used for iterating purposes
+	int T = 0,
+		z = 0; // same as above
 
-	bool is_parity = true; // assuming it is already parity
+	scanf("%d", &T);
+	
+	// bounds
+	if(T < 1 || T > 100)
+		return -1;
 
-	scanf("%d", &s);
-	// needed to implement
-	// getting integer limited to 10 as max size
+	// sets all isparity as false
+	bool isparity[T];
+	memset(isparity, 0, sizeof(isparity));
 
-	int b_matrix[s][s] = {0};
+	for(z; z < T; z++) {
 
-	// getting the input from user
-	// 1s and 0s
-	for(y = 0; y < s; y++)
-		for(x = 0; x < s; x++)
-			scanf("%d", &b_matrix[y][x]);
+		int N = 0,
+			x = 0,
+			y = 0;
 
-	for(y = 0; y < s; y++)
-	{
-		// if is parity
-		// get out of the loop
-		if(!is_parity)
-			break;
+		scanf("%d", &N);
 
-		int row_sum = 0,
-			col_sum = 0;
-
-		// sums up the row and columns
-		for(x = 0; x < s; x++) {
-			row_sum += b_matrix[y][x];
-			col_sum += b_matrix[x][y];
+		// if N is greater or equal to one EXIT
+		while(N >= 10) {
+			printf("Not valid. Input again.");
+			scanf("%d", &N);
 		}
 
-		// if it is not an even
-		// it is not parity
-		if(row_sum % 2 != 0 || col_sum % 2 != 0)
-			is_parity = false;
+		// initialize MATRIX
+		char matrix[N][N];
+		memset(matrix, '\0', sizeof(matrix));
+
+		// assign new boolean
+		bool valid_input = false;
+
+		do {
+
+			valid_input = true; // assumes all input is true
+
+			// gets data
+			for(y = 0; y < N; y++)
+				for(x = 0; x < N; x++)
+					scanf("%d", &matrix[y][x]);
+
+			// checks data
+			for(y = 0; y < N; y++)
+				for(x = 0; x < N; x++)
+					if(matrix[y][x] != 0 && matrix[y][x] != 1)
+						valid_input = false;
+
+			// remind user
+			if(!valid_input) printf("Not valid. Input again.\n");
+
+		} while(!valid_input);
+
+		// assumes that all input is parity
+		isparity[z] = true;
+
+		// checks for all columns if even
+		for(y = 0; y < N; y++) {
+
+			if(!is_sum_even_col(matrix[y], N))
+				isparity[z] = false;
+
+			if(!isparity[z])
+				break;
+
+		}
+
+		// checks for all rows if even
+		for(x = 0; x < N; x++) {
+
+			char* ptr = &matrix[0][x]; // pointer to the first element based on x
+
+			if(!is_sum_even_row(ptr, N))
+				isparity[z] = false;
+
+			if(!isparity[z])
+				break;
+
+		}
+
 	}
 
-	// simplified if statement
-	// by using ternary operator
-	(is_parity) ? printf("OK")
-				: printf("NOT OK"); 
+	for(z = 0; z < T; z++)
+	{
+		printf("Case #%d: ", z + 1);
+
+		(isparity[z]) ? printf("OK\n")
+					  : printf("NOT OK\n");
+	}
 
 	getch();
 	return 0;
+
 }

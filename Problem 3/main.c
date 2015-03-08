@@ -1,3 +1,7 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<conio.h>
 #include<string.h>
@@ -30,7 +34,7 @@ void cross_out_common_letters(char *first, char *second)
 	// holds the current character
 	char current = 0;
 
-	while(i < max_first)
+	for(; i < max_first; i++)
 	{
 		int j = 0; // iterator
 		
@@ -41,7 +45,7 @@ void cross_out_common_letters(char *first, char *second)
 		// checks the second array if the current char
 		// exist on both arrays
 		// crosses out the second array that has the same char as the current
-		while(j < max_second)
+		for(; j < max_second; j++)
 		{
 			if(current == tolower(second[j])) 
 			{
@@ -50,24 +54,14 @@ void cross_out_common_letters(char *first, char *second)
 
 				second[j] = '-';
 			}
-
-			j++;
 		}
-
-		j = 0;
 
 		// if the current char exists on the second array
 		// crosses out all the char of the first array
-		while(j < max_first && isExisting) 
-		{
+		for(j = 0; j < max_first && isExisting; j++)
 			if(current == first[j]) 
 				first[j] = '-';
 
-			j++;
-		}
-
-
-		i++;
 	}		
 }
 
@@ -91,32 +85,40 @@ int count_remaining_letters(char *first, char *second)
 
 int main()
 {
-	int x = 0,
+	int T = 0,
 		i = 0; // iteration
 
-	scanf("%d ", &x);
+	scanf("%d ", &T);
 
-	char first_person[x][255];
-	char second_person[x][255];
+	// bounds
+	if(T < 1 || T > 100)
+		return -1;
 
-	while(i < x)
+	// person arrays
+	char first_person[T][255];
+	char second_person[T][255];
+
+	// initialize array
+	memset(first_person, 0, sizeof(first_person));
+	memset(second_person, 0, sizeof(second_person));
+
+	// get input
+	for(i = 0; i < T; i++)
 	{ 
 		scanf(" %[^\n]255s", first_person[i]);
 		scanf(" %[^\n]255s", second_person[i]);
-		i++;
 	}
 
-	i = 0;
-
-	while(i < x)
+	// iterate
+	for(i = 0; i < T; i++)
 	{
-		cross_out_common_letters(first_person[i], second_person[i]);
+		// (literally) crosses out common letters
+		cross_out_common_letters(first_person[i], second_person[i]); 
 
-		int love_value = (count_remaining_letters(first_person[i], second_person[i]) - 1) % 6;
+		int remaining = count_remaining_letters(first_person[i], second_person[i]);
+		int love_value = (remaining - 1) % 6; // offset of one
 
-		printf("Case #%d: %s", i + 1, FLAMES[love_value]);
-
-		i++;
+		printf("Case #%d: %s\n", i + 1, FLAMES[love_value]);
 	}
 
 	getch();

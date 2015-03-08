@@ -1,78 +1,108 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<conio.h>
+#include<string.h>
+#include<stdbool.h>
+
+// making a structure for time
+typedef struct {
+
+	unsigned int days;
+	unsigned int hours;
+	unsigned int minutes;
+	unsigned int seconds;
+
+} time;
 
 int main()
 {
-	// UNSIGNED SHORT, REALLY?
-	int x = 0,
-		tc = 0;
+	int T = 0,
+		x = 0;
 
-	scanf("%d", &tc);
+	scanf("%d", &T);
 
-	// this needs to be fix
-	// bounds is not good
-	if(!(tc >= 1 || tc <= 100))
+	// bounds checker
+	if(T < 1 || T > 100)
 		return -1;
 
-	unsigned short int days[tc],
-					   hours[tc],
-					   minutes[tc],
-					   seconds[tc];
+	// initialize data
+	time INPUT[T];
+	memset(INPUT, 0, sizeof(INPUT));
 
-	// scans the existing datas
-	// by using the format specifier for unsigned short
-	for(x = 0; x < tc; x++)
-		scanf("%hu %hu %hu %hu", &days[x], &hours[x], &minutes[x], &seconds[x]);
+	// input data
+	for(; x < T; x++)
+		scanf("%u%u%u%u", &INPUT[x].days, &INPUT[x].hours, &INPUT[x].minutes, &INPUT[x].seconds);
 
-	// doing the converting of time
-	// from seconds to minutes
-	// from minutes to hours
-	// from hours to days
-	// why not put in a function
-	for(x = 0; x < tc; x++) {
-		
-		minutes[x] += seconds[x] / 60;
-		seconds[x] %= 60;
+	// process data
+	for(x = 0; x < T; x++)
+	{
+		// seconds to minutes
+		INPUT[x].minutes += INPUT[x].seconds / 60;
+		INPUT[x].seconds %= 60;
 
-		hours[x] += minutes[x] / 60;
-		minutes[x] %= 60;
+		// minutes to hours
+		INPUT[x].hours += INPUT[x].minutes / 60;
+		INPUT[x].minutes %= 60;
 
-		days[x] += hours[x] / 24;
-		hours[x] %= 24;
-
+		// hours to days
+		INPUT[x].days += INPUT[x].hours / 24;
+		INPUT[x].hours %= 24;
 	}
 
-	x = 0;
+	// output data
+	for(x = 0; x < T; x++)
+	{
+		// flagger
+		char last = '0';
 
-	while(x < tc) {
+		if(INPUT[x].days != 0) last = 'd';
+		if(INPUT[x].hours != 0) last = 'h';
+		if(INPUT[x].minutes != 0) last = 'm';
+		if(INPUT[x].seconds != 0) last = 's';
 
+		// output begins here
 		printf("Case #%d: ", x + 1);
-		
-		char last = '\0'; // flagger
 
-		if(days[x]) last = 'd';
-		if(hours[x]) last = 'h';
-		if(minutes[x]) last = 'm';
-		if(seconds[x]) last = 's';
+		// days
+		if(INPUT[x].days != 0) { 
 
-		// 60 seconds
-		(last == 'd' && days[x]) ? printf("%hu days", days[x])
-								 : printf("%hu days, ", days[x]);
+			printf("%u days", INPUT[x].days);
 
-		(last == 'h' && hours[x]) ? printf("%hu hours", hours[x])
-								  : printf("%hu hours, ", hours[x]);
+			if(last != 'd') 
+				printf(", ");
 
-		(last == 'm' && minutes[x]) ? printf("%hu minutes", minutes[x])
-								    : printf("%hu minutes, ", minutes[x]);
+		}
 
-		if(seconds[x]) printf("%hu seconds", seconds[x]);
-		
-		if(last == '\0') 
-			printf("Not available.");
+		// hours
+		if(INPUT[x].hours != 0)	{
+
+			printf("%u hours", INPUT[x].hours);
+
+			if(last != 'h') 
+				printf(", ");
+
+		}
+
+		// minutes
+		if(INPUT[x].minutes != 0) {
+
+			printf("%u minutes", INPUT[x].minutes);
+
+			if(last != 'm') 
+				printf(", ");
+
+		}
+
+		// since seconds is the last element for this program
+		if(INPUT[x].seconds != 0) printf("%u seconds", INPUT[x].seconds);
+
+		// if input is null
+		if(last == '0')	printf("Not available.");
 
 		printf("\n");
-
-		x++;
 	}
 
 	getch();

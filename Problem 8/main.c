@@ -1,3 +1,7 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<stdbool.h>
 #include<ctype.h>

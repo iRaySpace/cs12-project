@@ -1,14 +1,13 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<stdbool.h>
-
-// IMPORTANT:
-// WHAT ABOUT INVALID INPUTS
-// 1. 9999--0aeo0
-// 2. -99999
-// FIX IT
+#include<ctype.h>
 
 // checks if the value of char is
 // null or zero in literal '0'
@@ -100,7 +99,7 @@ void add_value(char* first, char* second, char* result)
 	// Holds the carry
 	int carry = 0;
 
-	for(; max > 0; max--)
+	for(; max >= 0; max--)
 	{
 		int one, two;
 
@@ -139,33 +138,47 @@ void add_value(char* first, char* second, char* result)
 
 	}
 
-	// uncomment this line see if this is really true
-	// printf("%d", result[0]);
-	// printf("%c\n", result[1]);
+	// printf("Debug: %s\n", result);
 
 	// Passing:
 	// result: 0123246
 	// max_two: 7
 	move_number(result, max_two);
+
+	// if result is zero
+	if(strlen(result) == 0) 
+		result[0] = '0';
+}
+
+// checks if the input is valid
+bool is_valid_input(char* string)
+{
+	int i = 0;
+
+	for(i = 0; i < strlen(string); i++)
+		if(!isdigit(string[i]))
+			return false;
+
+	return true;
 }
 
 int main()
 {
-
 	int T = 0,
 		x = 0;
 
 	scanf("%d", &T);
 
-	// please counteract negative numbers
+	// bounds
 	if(T < 1 || T > 200)
 		return -1;
 
+	// numbers
 	char first[T][50],
 		second[T][50],
 		result[T][100];
 
-	while(x < T) 
+	for(; x < T; x++)
 	{
 		// setting all of the arrays as empty
 		memset(first[x], '\0', sizeof(first[x]));
@@ -175,28 +188,24 @@ int main()
 		// Example:
 		// first: 123123
 		// second: 123
-		scanf("%s%s", first[x], second[x]);
+		scanf("%50s%50s", first[x], second[x]);
+
+		// loops if not valid input
+		while(!is_valid_input(first[x]) || !is_valid_input(second[x])) {
+			printf("Not valid. Input again.\n");
+			scanf("%50s%50s", first[x], second[x]);
+		}
 
 		// passing:
 		// result: NULL
 		// first: 123123
 		// second: 123
 		add_value(first[x], second[x], result[x]);
-
-		x++;
 	}
 
-	x = 0;
-
-	while(x < T)
-	{
-		if(strlen(result[x]) == 0)
-			printf("Case #%d: 0", x + 1);
-		else
-			printf("Case #%d: %s", x + 1, result[x]);
-
-		x++;
-	}
+	// display output
+	for(x = 0; x < T; x++)
+		printf("Case #%d: %s", x + 1, result[x]);
 	
 	getch();
 	return 0;

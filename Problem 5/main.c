@@ -1,3 +1,7 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<conio.h>
 
@@ -21,7 +25,7 @@ int main()
 		unsigned int result = first_num[i] + second_num[i];
 
 		// printing with hexadecimal notation
-		printf("Case #%d: %x\n", i + 1, result);
+		printf("Case #%d: %X\n", i + 1, result);
 
 	}
 

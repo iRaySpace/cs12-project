@@ -1,4 +1,7 @@
-// Mabuhay ang Na'vi!
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<conio.h>
 #include<string.h>
@@ -20,34 +23,35 @@ int count_words(char *str)
 	// tokenize the copy array
 	char *ptr = strtok(copy, " ");
 
-	// NEED to be replace with something char iterator
-	// to count spaces
-	while(ptr != NULL)
-	{
+	// counts the number of words
+	for(; ptr != NULL; i++)
 		ptr = strtok(NULL, " ");
-		i++;
-	}
 	
 	return i;
 }
 
 int main()
 {
-	int tc = 0,
+	int T = 0,
 		x = 0;
 
-	scanf("%d", &tc);
+	scanf("%d", &T);
 
-	char str[tc][255];
+	// bounds checker
+	if(T < 1 || T > 100)
+		return -1;
 
-	while(x < tc)
+	// string initialize
+	char str[T][255];
+	memset(str, 0, sizeof(str));
+
+	while(x < T)
 		scanf(" %255[^\n]s", str[x++]);
 
-	x = 0;
 
-	while(x < tc)
+	for(x = 0; x < T; x++)
 	{
-		int i = 0;
+		int i = 0; // iteration
 		int words = count_words(str[x]); // counts words
 
 		char *iter = strtok(str[x], " "),
@@ -61,13 +65,14 @@ int main()
 
 		i = words - 1; // offset by one (array)
 
-		// STACKS with backward iteration
+		// output the results
+		printf("Case #%d: ", x + 1);
+
 		while(i >= 0)
 			printf("%s ", main_ptr[i--]);
 
 		printf("\n");
 
-		x++;
 	}
 
 	getch();

@@ -1,3 +1,7 @@
+// Ivan Ray Altomera
+// Aeron John Egar
+// Ian Clark Selorico
+// BSCS I - CSA
 #include<stdio.h>
 #include<string.h>
 #include<conio.h>
@@ -5,23 +9,23 @@
 
 int main()
 {
-	int tc = 0, // test cases
+	int T = 0, // test cases
 		it = 0; // iterator
 
-	scanf("%d", &tc); // getting the input of teh test cases
+	scanf("%d", &T); // getting the input of teh test cases
 
 	// exits as -1 when bounds are overlapped
-	if(tc < 1 || tc > 100)
+	if(T < 1 || T > 100)
 		return -1;
 
 	// first number and the second number
-	unsigned int a[tc];
-	unsigned int b[tc];
+	unsigned int a[T];
+	unsigned int b[T];
 
 	// list of carry operations
-	int carry_op[tc];
+	int carry_op[T];
 
-	for(it; it < tc; it++) {
+	for(it; it < T; it++) {
 
 		// getting input as unsigned int
 		scanf("%u", &a[it]);
@@ -32,7 +36,7 @@ int main()
 
 	}
 
-	for(it = 0; it < tc; it++) {
+	for(it = 0; it < T; it++) {
 
 		// NEEDS IMPROVEMENT HERE!!!!
 		// gets the highest possible digits
